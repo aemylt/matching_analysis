@@ -39,6 +39,7 @@ int main(int argc, char **argv) {
     fseek(f, random_at_most(fsize - psize), SEEK_SET);
     char *pattern = malloc(psize + 1);
     fread(pattern, psize, 1, f);
+    pattern[psize] = '\0';
     fclose(f);
     printf("%s\n", pattern);
     return 0;
