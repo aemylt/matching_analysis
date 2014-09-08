@@ -1,15 +1,26 @@
-all: gen-pattern test-pattern
+CC=gcc
+CARGS=-Wall -O3
+GMPLIB=-L/gmp_install/lib -lgmp
+CMPHLIB=-L/usr/local/lib/libcmph.la -lcmph
 
-clean: gen-pattern-clean test-pattern-clean
+all: gen-pattern parameterised-test exact-test
 
-test-pattern:
-	gcc -Wall -O3 stream_test.c -o stream_test
+clean: gen-pattern-clean parameterised-test-clean exact-test-clean
 
-test-pattern-clean:
-	rm stream_test
+parameterised-test:
+	$(CC) $(CARGS) -D PARAMETERISED stream_test.c -o parameterised_test
+
+parameterised-test-clean:
+	rm parameterised_test
+
+exact-test:
+	$(CC) $(CARGS) stream_test.c -o exact_test $(GMPLIB) $(CMPHLIB)
+
+exact-test-clean:
+	rm exact_test
 
 gen-pattern:
-	gcc -Wall -O3 make_pattern.c -o make_pattern
+	$(CC) $(CARGS) make_pattern.c -o make_pattern
 
 gen-pattern-clean:
 	rm make_pattern

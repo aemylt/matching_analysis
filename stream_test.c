@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#ifdef PARAMETERISED
 #include "parameterised_matching/m_match.h"
+#else
+#include "exact_matching/exact_matching.h"
+#endif
 
 int main(int argc, char **argv) {
     FILE *f = fopen(argv[2], "rb");
@@ -13,18 +17,34 @@ int main(int argc, char **argv) {
     fread(pattern, fsize, 1, f);
     fclose(f);
 
+    f = fopen(argv[1], "r");
+    fseek(f, 0, SEEK_END);
+    long n = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
     clock_t start = clock();
+
+    #ifdef PARAMETERISED
     mmatch_state state = mmatch_build(pattern, fsize - 1);
+    #else
+    char *sigma = malloc(256 * sizeof(char));
+    int cnt;
+    for (cnt = 0; cnt < 256; cnt++) sigma[cnt] = cnt - 128;
+    exactmatch_state state = exactmatch_build(pattern, fsize - 1, sigma, 256, n, 0);
+    #endif
     double build_time = (double)(clock() - start) / (CLOCKS_PER_SEC/1000);
 
-    f = fopen(argv[1], "r");
     int i = 0;
     char T_i;
     int result;
     T_i = fgetc(f);
     start = clock();
     while (T_i != EOF) {
+        #ifdef PARAMETERISED
         result = mmatch_stream(state, T_i, i);
+        #else
+        result = exactmatch_stream(&state, T_i);
+        #endif
         if (result != -1) printf("%d, ", result);
         i++;
         T_i = fgetc(f);
@@ -39,6 +59,10 @@ int main(int argc, char **argv) {
     }
     fclose(process_file);
 
+    #ifdef PARAMETERISED
     mmatch_free(state);
+    #else
+    exactmatch_free(&state);
+    #endif
     return 0;
 }
