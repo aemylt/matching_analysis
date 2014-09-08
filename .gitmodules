@@ -1,0 +1,6 @@
+[submodule "exact_matching"]
+	path = exact_matching
+	url = git@github.com:djmylt/exact_matching.git
+[submodule "parameterised_matching"]
+	path = parameterised_matching
+	url = git@github.com:djmylt/parameterised_matching.git
