@@ -3,6 +3,8 @@
 #include <time.h>
 #ifdef PARAMETERISED
 #include "parameterised_matching/m_match.h"
+#elif defined(KMP_TEST)
+#include "parameterised_matching/kmp.h"
 #else
 #include "exact_matching/exact_matching.h"
 #endif
@@ -26,6 +28,8 @@ int main(int argc, char **argv) {
 
     #ifdef PARAMETERISED
     mmatch_state state = mmatch_build(pattern, fsize - 1);
+    #elif defined(KMP_TEST)
+    kmp_state state = kmp_build(pattern, fsize - 1);
     #else
     char *sigma = malloc(256 * sizeof(char));
     int cnt;
@@ -42,6 +46,8 @@ int main(int argc, char **argv) {
     while (T_i != EOF) {
         #ifdef PARAMETERISED
         result = mmatch_stream(state, T_i, i);
+        #elif defined(KMP_TEST)
+        result = kmp_stream(state, T_i, i);
         #else
         result = exactmatch_stream(&state, T_i);
         #endif
@@ -61,6 +67,8 @@ int main(int argc, char **argv) {
 
     #ifdef PARAMETERISED
     mmatch_free(state);
+    #elif defined(KMP_TEST)
+    kmp_free(state);
     #else
     exactmatch_free(&state);
     #endif

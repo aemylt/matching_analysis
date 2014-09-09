@@ -13,6 +13,12 @@ parameterised-test:
 parameterised-test-clean:
 	rm parameterised_test
 
+kmp-test:
+	$(CC) $(CARGS) -D KMP_TEST stream_test.c -o kmp_test
+
+kmp-test-clean:
+	rm kmp_test
+
 exact-test:
 	$(CC) $(CARGS) stream_test.c -o exact_test $(GMPLIB) $(CMPHLIB)
 

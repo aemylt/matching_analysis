@@ -4,7 +4,7 @@ make
 
 for i in {1..10}; do
     ./make_pattern "/home/dom/ThirdYear/Summer/Test Data/english.50MB" $1 > pattern
-    ./parameterised_test "/home/dom/ThirdYear/Summer/Test Data/english.50MB" pattern >> parameterised_test_m_$1
+##    ./parameterised_test "/home/dom/ThirdYear/Summer/Test Data/english.50MB" pattern >> parameterised_test_m_$1
     ./exact_test "/home/dom/ThirdYear/Summer/Test Data/english.50MB" pattern >> exact_test_m_$1
 done
 
