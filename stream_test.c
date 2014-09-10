@@ -10,7 +10,7 @@
 #endif
 
 int main(int argc, char **argv) {
-    FILE *f = fopen(argv[2], "rb");
+    FILE *f = fopen("pattern", "rb");
     fseek(f, 0, SEEK_END);
     long fsize = ftell(f);
     fseek(f, 0, SEEK_SET);
@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
     fread(pattern, fsize, 1, f);
     fclose(f);
 
-    f = fopen(argv[1], "r");
+    f = fopen("/home/dom/ThirdYear/Summer/Test Data/english.50MB", "r");
     fseek(f, 0, SEEK_END);
     long n = ftell(f);
     fseek(f, 0, SEEK_SET);
@@ -41,6 +41,7 @@ int main(int argc, char **argv) {
     int i = 0;
     char T_i;
     int result;
+    int count = 0;
     T_i = fgetc(f);
     start = clock();
     while (T_i != EOF) {
@@ -51,19 +52,21 @@ int main(int argc, char **argv) {
         #else
         result = exactmatch_stream(&state, T_i);
         #endif
-        if (result != -1) printf("%d, ", result);
+        if (result != -1) count++;
         i++;
         T_i = fgetc(f);
     }
     double time = (double)(clock() - start) / (CLOCKS_PER_SEC/1000000);
     fclose(f);
-    printf("\nBuild Time: %f\nAverage Time per Character: %f\nTotal Time: %f\n", build_time, time/i, time);
-    FILE *process_file = fopen("/proc/self/statm", "r");
-    unsigned long size, resident, share, text, lib, data, dt;
-    if (fscanf(process_file, "%lu %lu %lu %lu %lu %lu %lu", &size, &resident, &share, &text, &lib, &data, &dt) == 7) {
-        printf("Size: %lu\nData: %lu\n", size, data);
-    }
-    fclose(process_file);
+    printf("Number of results: %d\nBuild Time: %f\nAverage Time per Character: %f\nTotal Time: %f\n", count, build_time, time/i, time);
+
+    #ifdef PARAMETERISED
+    printf("Size: %d\n", mmatch_size(state));
+    #elif defined(KMP_TEST)
+    printf("Size: %d\n", kmp_size(state));
+    #else
+    printf("Size: %d\n", exactmatch_size(state));
+    #endif
 
     #ifdef PARAMETERISED
     mmatch_free(state);
