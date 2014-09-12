@@ -1,0 +1,148 @@
+#!/usr/bin/env python
+
+import itertools
+import numpy
+import matplotlib.pyplot as plot
+
+sizes = range(500, 10000, 500)
+
+exact_build = []
+exact_time = []
+exact_size = []
+for i in sizes:
+    exact_build.append([]);
+    exact_time.append([]);
+    exact_size.append([]);
+    with open("exact_test_m_%d" % i) as f:
+        lines = list(itertools.islice(f, 5))
+        while lines:
+            exact_build[-1].append(float(lines[1].split()[-1]))
+            exact_time[-1].append(float(lines[2].split()[-1]))
+            exact_size[-1].append(int(lines[4].split()[-1]))
+            lines = list(itertools.islice(f, 5))
+
+amoretised_build = []
+amoretised_time = []
+amoretised_size = []
+for i in sizes:
+    amoretised_build.append([]);
+    amoretised_time.append([]);
+    amoretised_size.append([]);
+    with open("amoretised_test_m_%d" % i) as f:
+        lines = list(itertools.islice(f, 5))
+        while lines:
+            amoretised_build[-1].append(float(lines[1].split()[-1]))
+            amoretised_time[-1].append(float(lines[2].split()[-1]))
+            amoretised_size[-1].append(int(lines[4].split()[-1]))
+            lines = list(itertools.islice(f, 5))
+
+kmp_build = []
+kmp_time = []
+kmp_size = []
+for i in sizes:
+    kmp_build.append([]);
+    kmp_time.append([]);
+    kmp_size.append([]);
+    with open("kmp_test_m_%d" % i) as f:
+        lines = list(itertools.islice(f, 5))
+        while lines:
+            kmp_build[-1].append(float(lines[1].split()[-1]))
+            kmp_time[-1].append(float(lines[2].split()[-1]))
+            kmp_size[-1].append(int(lines[4].split()[-1]))
+            lines = list(itertools.islice(f, 5))
+
+parameterised_build = []
+parameterised_time = []
+parameterised_size = []
+for i in sizes:
+    parameterised_build.append([]);
+    parameterised_time.append([]);
+    parameterised_size.append([]);
+    with open("parameterised_test_m_%d" % i) as f:
+        lines = list(itertools.islice(f, 5))
+        while lines:
+            parameterised_build[-1].append(float(lines[1].split()[-1]))
+            parameterised_time[-1].append(float(lines[2].split()[-1]))
+            parameterised_size[-1].append(int(lines[4].split()[-1]))
+            lines = list(itertools.islice(f, 5))
+
+one_search_build = []
+one_search_time = []
+one_search_size = []
+for i in sizes:
+    one_search_build.append([]);
+    one_search_time.append([]);
+    one_search_size.append([]);
+    with open("parameterised_test_one_search_m_%d" % i) as f:
+        lines = list(itertools.islice(f, 5))
+        while lines:
+            one_search_build[-1].append(float(lines[1].split()[-1]))
+            one_search_time[-1].append(float(lines[2].split()[-1]))
+            one_search_size[-1].append(int(lines[4].split()[-1]))
+            lines = list(itertools.islice(f, 5))
+
+plot.figure()
+plot.plot(sizes, [numpy.mean(i) for i in exact_build], label="Fingerprints with Simon's Algorithm")
+plot.plot(sizes, [numpy.mean(i) for i in amoretised_build], label="Fingerprints with Amoretised KMP")
+plot.plot(sizes, [numpy.mean(i) for i in kmp_build], label="Amoretised KMP")
+plot.title("Preprocessing Time for Exact Matching")
+plot.xlabel("Pattern Size (B)")
+plot.ylabel("Preprocessing Time (ms)")
+plot.legend()
+plot.savefig('exact_build_time.png', bbox_inches='tight')
+plot.figure()
+plot.plot(sizes, [numpy.mean(i) for i in exact_time], label="Fingerprints with Simon's Algorithm")
+plot.plot(sizes, [numpy.mean(i) for i in amoretised_time], label="Fingerprints with Amoretised KMP")
+plot.plot(sizes, [numpy.mean(i) for i in kmp_time], label="Amoretised KMP")
+plot.title("Average Time per Character for Exact Matching")
+plot.xlabel("Pattern Size (B)")
+plot.ylabel("Average Time per Character (ns)")
+plot.legend()
+plot.savefig('exact_run_time.png', bbox_inches='tight')
+plot.figure()
+plot.plot(sizes, [numpy.mean(i) for i in exact_size], label="Fingerprints with Simon's Algorithm")
+plot.plot(sizes, [numpy.mean(i) for i in amoretised_size], label="Fingerprints with Amoretised KMP")
+plot.plot(sizes, [numpy.mean(i) for i in kmp_size], label="Amoretised KMP")
+plot.title("Data Structure Size for Exact Matching")
+plot.xlabel("Pattern Size (B)")
+plot.ylabel("Size of Data Structure (B)")
+plot.savefig('exact_size.png', bbox_inches='tight')
+plot.legend()
+
+plot.figure()
+plot.plot(sizes, [numpy.mean(i) for i in parameterised_build])
+plot.title("Preprocessing Time for Parameterised Matching")
+plot.xlabel("Pattern Size (B)")
+plot.ylabel("Preprocessing Time (ms)")
+plot.savefig('parameterised_build_time.png', bbox_inches='tight')
+plot.figure()
+plot.plot(sizes, [numpy.mean(i) for i in parameterised_time])
+plot.title("Average Time per Character for Parameterised Matching")
+plot.xlabel("Pattern Size (B)")
+plot.ylabel("Average Time per Character (ns)")
+plot.savefig('parameterised_run_time.png', bbox_inches='tight')
+plot.figure()
+plot.plot(sizes, [numpy.mean(i) for i in parameterised_size])
+plot.title("Data Structure Size for Parameterised Matching")
+plot.xlabel("Pattern Size (B)")
+plot.ylabel("Size of Data Structure (B)")
+plot.savefig('parameterised_size.png', bbox_inches='tight')
+
+plot.figure()
+plot.plot(sizes, [numpy.mean(i) for i in one_search_build])
+plot.title("Preprocessing Time for Parameterised Matching with One Search")
+plot.xlabel("Pattern Size (B)")
+plot.ylabel("Preprocessing Time (ms)")
+plot.savefig('parameterised_one_search_build_time.png', bbox_inches='tight')
+plot.figure()
+plot.plot(sizes, [numpy.mean(i) for i in one_search_time])
+plot.title("Average Time per Character for Parameterised Matching with One Search")
+plot.xlabel("Pattern Size (B)")
+plot.ylabel("Average Time per Character (ns)")
+plot.savefig('parameterised_one_search_run_time.png', bbox_inches='tight')
+plot.figure()
+plot.plot(sizes, [numpy.mean(i) for i in one_search_size])
+plot.title("Data Structure Size for Parameterised Matching with One Search")
+plot.xlabel("Pattern Size (B)")
+plot.ylabel("Size of Data Structure (B)")
+plot.savefig('parameterised_one_search_size.png', bbox_inches='tight')
