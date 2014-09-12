@@ -29,7 +29,7 @@
   \begin{block}{\Large Introduction}
   In the wake of Big Data, a large amount of recent research in Theoretical Computer Science has been focused on the data streaming model. Under this model, the computer only has access to a window of the input at any time, and the objective is to compute the solution with a sublinear amount of space. There have been a number of theoretical developments in Data Streaming in recent years, but very few of these have ever been implemented to see if they are practical.\\
   \vspace{\baselineskip}
-  I have implemented two algorithms in C for stream-based pattern matching. Note the standard notation for pattern matching, where $m$ is the length of the pattern and $\Sigma$ is the alphabet:
+  I have implemented two algorithms in C for stream-based pattern matching. Note the standard notation, where $m$ is the length of the pattern and $\Sigma$ is the alphabet:
   \begin{enumerate}
   \item An algorithm for parameterised matching with $O(m + \pi)$ space and $O(\log\pi)$ amortised time per character, where $\pi=min(m, \left|\Sigma\right|)$ by Amir et al.\footnote{Alphabet Dependence in Parameterized Matching by Amihood Amir, Martin Farach and S. Muthukrishnan}
   \item An algorithm for exact matching with $O(\log m)$ space and $O(1)$ time per character by Breslauer and Galil,\footnote{Real-Time Streaming String-Matching by Dany Breslauer and Zvi Galil} and deamortised by Simon's Algorithm.\footnote{String Matching Algorithms and Automata by Imre Simon} Sublinear space is achieved via Karp-Rabin fingerprints.
@@ -47,7 +47,7 @@
   \begin{column}{0.422\linewidth}
   \begin{block}{\Large Parameterised Matching Results}
   \begin{center}
-  \includegraphics[scale=0.58]{parameterised_run_time}\includegraphics[scale=0.58]{parameterised_size}
+  \includegraphics[scale=0.6]{parameterised_run_time}\includegraphics[scale=0.6]{parameterised_size}
   \end{center}
   \end{block}
   \end{column}
@@ -55,7 +55,7 @@
   \begin{column}{0.422\linewidth}
   \begin{block}{\Large Results for Exact Matching}
   \begin{center}
-  \includegraphics[scale=0.58]{exact_run_time}\includegraphics[scale=0.58]{exact_size}
+  \includegraphics[scale=0.6]{exact_run_time}\includegraphics[scale=0.6]{exact_size}
   \end{center}
   \end{block}
   \end{column}
