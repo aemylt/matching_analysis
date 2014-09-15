@@ -58,7 +58,7 @@
   \vspace{4ex}
   \raggedright
   {\Huge  \poster@title}                                         \\ [4ex]
-  {\Large \poster@author, supervised by \poster@supervisor}      \\ [4ex]
+  {\Large \poster@author, supervised by Dr. Rapha\"{e}l Clifford, Dr. Markus Jalsenius and Dr. Benjamin Sach}      \\ [4ex]
   {\Large University of Bristol, Department of Computer Science}
   \vspace{4ex}
   \end{center}
