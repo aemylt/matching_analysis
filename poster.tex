@@ -31,7 +31,7 @@
   \vspace{\baselineskip}
   I have implemented two algorithms in C for stream-based pattern matching. Note the standard notation, where $m$ is the length of the pattern and $\Sigma$ is the alphabet:
   \begin{enumerate}
-  \item An algorithm for parameterised matching with $O(m)$ space and $O(\log\pi)$ amortised time per character, where $\pi=min(m, \left|\Sigma\right|)$ by Amir et al.\footnote{Alphabet Dependence in Parameterized Matching by Amihood Amir, Martin Farach and S. Muthukrishnan}
+  \item An algorithm for parameterised matching with $O(m + \left|\Sigma\right|)$ space and $O(\log(\min(m, \left|\Sigma\right|))$ amortised time per character by Amir et al.\footnote{Alphabet Dependence in Parameterized Matching by Amihood Amir, Martin Farach and S. Muthukrishnan}
   \item An algorithm for exact matching with $O(\log m)$ space and $O(1)$ time per character by Breslauer and Galil,\footnote{Real-Time Streaming String-Matching by Dany Breslauer and Zvi Galil} and deamortised by Simon's Algorithm.\footnote{String Matching Algorithms and Automata by Imre Simon} Sublinear space is achieved via Karp-Rabin fingerprints.
   \end{enumerate}
 
