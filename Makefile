@@ -39,3 +39,9 @@ gen-pattern:
 
 gen-pattern-clean:
 	rm make_pattern
+
+poster:
+	pdflatex poster.tex
+
+poster-clean:
+	rm poster.aux poster.log poster.nav poster.out poster.pdf poster.snm poster.toc
